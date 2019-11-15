@@ -1,3 +1,6 @@
 * [介绍]()
 * [数据类型](data_type)
 * [变量的定义](variable)
+* [数值Number](number)
+* [字符串String](string)
+* [对象Object](object)
