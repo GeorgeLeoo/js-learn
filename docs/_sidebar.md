@@ -14,7 +14,7 @@
 * [ES8](es8)
 * [ES9](es9)
 * [ES10](es10)
-* [ajax](ajax)
+* [Ajax](ajax)
 * [HTML5 API](html5_api)
 * [客户端存储](storage)
 * [Promise](promise)

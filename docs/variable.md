@@ -127,3 +127,5 @@ console.log(window.a);  // 1
 console.log(window.b);  // undefined
 console.log(window.c);  // undefined
 ```
+
+### 如何在ES5环境下实现const ？
