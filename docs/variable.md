@@ -102,6 +102,58 @@ console.log(obj);   // { a: 11 }
 ```
 我们声明了常量对象obj，我们修改了obj的a属性。那为何对象就可以修改呢，参考[对象Object](object)
 
+### ES5环境下const的实现
+在ES5中是没有const的，那么如何去实现一个const呢。对象里有个属性，叫做属性描述符，我们可以使用该描述符控制对象的读写操作。参考[Object.defineProperty](object?Object.defineProperty)
+
+对象中的描述符两种，数据描述符和存取描述符。
+- 数据描述符：一个具有值的属性，该值可能是可写的，也可能是不可写的。
+- 存取描述符：由getter和setter函数对描述的属性
+
+描述符功能：
+
+> 数据描述符与存取描述符皆可修改:
+
+- configurable：当前对象元素的属性描述符是否可改，是否可删除
+- enumerable：当前对象元素是否可枚举
+
+> 唯有数据描述符可以修改：
+
+- value: 当前对象元素的值
+- writable：当前对象元素的值是否可修改
+
+> 唯有存取描述符可以修改：
+
+- get：读取元素属性值时的操作
+- set：修改元素属性值时的操作
+
+```javascript
+var _const = function (key, value) {
+    // 为了更方便的使用数据，必须将它挂在到window上或某个对象上
+    this[key] = value;
+    Object.defineProperty(this, key, {
+        enumerable: false,  // 不可枚举
+        configurable: false,    // 不可修改
+        get: function () {
+            return value;
+        },
+        set: function (current_value) {
+            if (current_value !== value) {
+                throw new TypeError('Assignment to constant variable.')
+            } else {
+                return value;
+            }
+        }
+    });
+}
+
+_const("a",2);
+console.log(a); // 2
+
+_const("a",20); // Uncaught TypeError: Assignment to constant variable.
+console.log(a);
+
+```
+
 ### 暂时性死区
 let或const所在的块级作用域会形成暂时性死区，这个区域不再受外部的影响，是一个相对独立的区域。
 
@@ -127,5 +179,3 @@ console.log(window.a);  // 1
 console.log(window.b);  // undefined
 console.log(window.c);  // undefined
 ```
-
-### 如何在ES5环境下实现const ？

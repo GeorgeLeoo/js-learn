@@ -67,8 +67,10 @@ httpRequest.onreadystatechange = function() {
 ```javascript
 function ajax({url, method = "get", data, headers = [], isAsync = true}){
 
+    // 将小写的请求方法转换为大写
     method = method.toUpperCase();
 
+    // 判断当前是不是GET请求并且有没有data属性，有的话就拼接到url上
     if(method === "GET" && data){
         let keys = Object.keys(data);
         let url_suffix = "?";
@@ -81,6 +83,7 @@ function ajax({url, method = "get", data, headers = [], isAsync = true}){
         url+=url_suffix;
     }
 
+    // 创建HttpRequest对象
     function createHttpRequest(){
         if(window.XMLHttpRequest) {
             return httpRequest = new XMLHttpRequest();
@@ -89,6 +92,7 @@ function ajax({url, method = "get", data, headers = [], isAsync = true}){
         }
     }
 
+    // 设置请求头
     function setRequestHeaders(httpRequest, headers){
         let keys = Object.keys(headers);
         for(let i = 0; i < keys.length; i++){
@@ -96,7 +100,9 @@ function ajax({url, method = "get", data, headers = [], isAsync = true}){
         }
     }
 
+    // 发送请求头
     function send(httpRequest, method, data){
+        // 判断如果不是get请求，并且有data，就发送data
         if(method !== "GET" && data){
             httpRequest.send(data);
         }else{
